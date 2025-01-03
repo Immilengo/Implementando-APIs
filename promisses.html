@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Clientes</h1>
+    <div id="client-list">Carregando clientes...</div>
+
+    <script>
+        // URL da API (exemplo de API simulada)
+        const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+        // Seleciona o contêiner HTML
+        const container = document.getElementById('client-list');
+
+        // Função para buscar e exibir a lista de clientes
+        async function fetchAndDisplayClients() {
+            try {
+                // Faz a requisição à API
+                const response = await fetch(apiUrl);
+
+                // Verifica se a requisição foi bem-sucedida
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status}`);
+                }
+
+                // Converte a resposta para JSON
+                const clients = await response.json();
+
+                // Monta a tabela de clientes
+                let tableHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Cidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                clients.forEach(client => {
+                    tableHtml += `
+                        <tr>
+                            <td>${client.id}</td>
+                            <td>${client.name}</td>
+                            <td>${client.email}</td>
+                            <td>${client.address.city}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHtml += `</tbody></table>`;
+
+                // Insere a tabela no contêiner
+                container.innerHTML = tableHtml;
+            } catch (error) {
+                // Exibe uma mensagem de erro
+                container.innerHTML = `<p style="color: red;">Erro ao carregar os clientes: ${error.message}</p>`;
+            }
+        }
+
+        // Chama a função para buscar e exibir os clientes
+        fetchAndDisplayClients();
+    </script>
+</body>
+</html>

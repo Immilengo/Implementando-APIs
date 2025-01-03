@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testes das funções Asyncs</title>
+</head>
+<body>
+    <h1>Listar Modedas</h1>
+    <div id="teste"> Carregando a lista de Moedas...</div>
+    <script>
+        //const url = "https://v6.exchangerate-api.com/v6/9a0c673ec292e40b6ecb139d/latest/USD"
+        //const url2 = "https://www.themoviedb.org/""
+        const url = 'https://jsonplaceholder.typicode.com/users';
+
+        const divele = document.getElementById("teste");
+    
+    async function listarmoedas() {
+        try {
+            const resposta = await fetch(url)
+            const conversao = await resposta.json()
+           // let abrev = JSON.stringify(conversao)
+           // divele.innerHTML += `<br>` +abrev;
+
+            conversao.forEach(client => {
+                let abrev2 = JSON.stringify(client.username)
+                const novoele = `<div> ${abrev2}</div>`
+                divele.innerHTML += novoele;
+            });  
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    listarmoedas();
+    </script>
+    
+</body>
+</html>
